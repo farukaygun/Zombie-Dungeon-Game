@@ -4,7 +4,4 @@ using UnityEngine;
 
 public class PlayerHealth : HealthSystem
 {
-	public override void Start() {
-		
-	}
 }

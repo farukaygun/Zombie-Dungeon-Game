@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private InputAction movementInput;
-    [SerializeField] private float       speed = 5f;
+    [SerializeField] private float       speed;
 
     private float horizontal;
     private float vertical;
@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
         rb   		= GetComponent<Rigidbody2D>();
         anim 		= GetComponent<Animator>();
 		enemyLayers = LayerMask.GetMask("Enemy");
+        speed = 3.5f;
 
         // Input Assign
         attackInput.performed   += _   => Attack();  // delegate method to InputAction
@@ -70,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
         movementVector.Normalize(); // Normalized diagonal movement.
 
-        movementVector *= speed * Time.deltaTime * 40f;
+        movementVector *= speed * Time.fixedDeltaTime * 40f;
         rb.velocity     = movementVector;
 
         if (rb.velocity != Vector2.zero)
@@ -97,9 +98,7 @@ public class PlayerController : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         
 		foreach (var enemy in hitEnemies)
-		{
 			enemy.GetComponent<EnemyHealth>().TakeDamage(damage);
-		}
     }
 
 	// display attack range with circle

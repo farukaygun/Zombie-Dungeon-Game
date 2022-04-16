@@ -6,6 +6,7 @@ public class EnemyHealth : HealthSystem
 {
     public override void Die()
     {
+        GetComponent<EnemyController>().currentState = State.Die;
         base.Die();
         StartCoroutine(ClearDeadBody());
     }

@@ -5,16 +5,16 @@ using UnityEngine;
 public abstract class HealthSystem : MonoBehaviour
 {
 	public Animator 		 anim;
-	public int 	    		 maxHealth = 100;
-	public int 	    		 currentHealth;
-	public string   		 animationTriggerName;
+	public int 				 maxHealth = 100;
+	public int 				 currentHealth;
+	public string 			 animationTriggerName;
 	public CapsuleCollider2D col;
 
 	public virtual void Start()
 	{
 		currentHealth 		 = maxHealth;
 		anim 		  		 = GetComponent<Animator>();
-		animationTriggerName = "Die";
+		animationTriggerName = "die";
 		col					 = GetComponent<CapsuleCollider2D>();
 	}
 
