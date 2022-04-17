@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class EnemyHealth : HealthSystem
 {
-    public override void Die()
-    {
-        GetComponent<EnemyController>().currentState = State.Die;
-        base.Die();
-        StartCoroutine(ClearDeadBody());
-    }
+	public override void Die()
+	{
+		GetComponent<EnemyController>().currentState = State.Die;
+		base.Die();
+		StartCoroutine(ClearDeadBody());
+	}
 
-    // TODO: Create object pool and use zombies from pool
-    private IEnumerator ClearDeadBody() {
-        yield return new WaitForSeconds(3f);
-        Destroy(gameObject);
-    }
+	// TODO: Create object pool and use zombies from pool
+	private IEnumerator ClearDeadBody() {
+		yield return new WaitForSeconds(3f);
+		col.enabled = true;
+		GetComponent<EnemyController>().currentState = State.Idle;
+		gameObject.SetActive(false);
+	}
 }
