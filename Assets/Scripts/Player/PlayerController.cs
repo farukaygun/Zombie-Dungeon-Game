@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 		rb   		= GetComponent<Rigidbody2D>();
 		anim 		= GetComponent<Animator>();
 		enemyLayers = LayerMask.GetMask("Enemy");
-		speed = 3.5f;
+		speed = 5f;
 		attackRange = 0.5f;
 		damage = 50;
 

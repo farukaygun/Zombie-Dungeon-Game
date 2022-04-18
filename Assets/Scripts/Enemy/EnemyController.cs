@@ -5,6 +5,7 @@ using UnityEngine;
 public enum State
 {
 	Idle,
+	Patrol,
 	Chase,
 	Attack,
 	Die
@@ -14,24 +15,43 @@ public class EnemyController : MonoBehaviour
 {
 	[Header("Attack")]
 	[SerializeField] private Transform attackPoint;
+	[SerializeField] private LayerMask playerLayers;
 	[SerializeField] private float 	   attackRange    = 0.5f;
 	[SerializeField] private int	   damage 	      = 20;
 	[SerializeField] private int	   attackCooldown = 2;
 	[SerializeField] private float	   lastAttackTime;
-	[SerializeField] private LayerMask playerLayers;
 
+	[Header("Patrol")]
+	private List<Transform> moveSpots = new List<Transform>();
+	private GameObject patrolPoints;
+	private int 	   randomSpot;
+	private float 	   patrolSpeed;
+	private float 	   waitTime;
+	private float 	   startWaitTime;
 
 	private float 	  speed;
 	private Transform target;
 	private Animator  anim;
-	public State      currentState;
+	public  State     currentState;
 
 	private void Start() 
 	{
-		anim   		 = GetComponent<Animator>();
-		target 		 = GameObject.FindGameObjectWithTag("Player").transform;
-		playerLayers = LayerMask.GetMask("Player");
-		speed		 = 1f;
+		anim   		  	  = GetComponent<Animator>();
+		target 		  	  = GameObject.FindGameObjectWithTag("Player").transform;
+		playerLayers  	  = LayerMask.GetMask("Player");
+		speed		  	  = 2f;
+		patrolPoints      = GameObject.FindGameObjectWithTag("Patrol Points");
+
+		// filling moveSpots
+		foreach (Transform item in patrolPoints.transform)
+		{
+			print(item.name);
+			moveSpots.Add(item);
+		}
+
+		randomSpot 		  = Random.Range(0, moveSpots.Count);
+		patrolSpeed   	  = 1f;
+		startWaitTime 	  = 3f;
 	}
 
 	private void Update() 
@@ -45,6 +65,9 @@ public class EnemyController : MonoBehaviour
 		switch (currentState)
 		{
 			case State.Idle:
+				break;
+			case State.Patrol:
+				Patrol();
 				break;
 			case State.Chase:
 				FollowTarget();
@@ -61,9 +84,12 @@ public class EnemyController : MonoBehaviour
 
 		if (currentState != State.Die)
 		{
-			if (distanceToTarget > attackRange)
+			if (distanceToTarget > 5f)
+				currentState = State.Patrol;
+			else if (distanceToTarget <= 5f && distanceToTarget > attackRange)
 				currentState = State.Chase;
-			else currentState = State.Attack;
+			else 
+				currentState = State.Attack;
 		}
 	}
 
@@ -92,6 +118,27 @@ public class EnemyController : MonoBehaviour
 				player.GetComponent<PlayerHealth>().TakeDamage(damage);
 
 			lastAttackTime = Time.time;
+		}
+	}
+
+	private void Patrol()
+	{
+		anim.SetBool("isRunning", true);
+		transform.position = Vector2.MoveTowards(transform.position, moveSpots[randomSpot].position, patrolSpeed * Time.fixedDeltaTime * 0.05f);
+
+		if (Vector2.Distance(transform.position, moveSpots[randomSpot].position) < 0.2f)
+		{
+			if (waitTime <= 0)
+			{
+				print("distance: " + Vector2.Distance(transform.position, moveSpots[randomSpot].position));
+				while (Vector2.Distance(transform.position, moveSpots[randomSpot].position) <= 3f)
+				{
+					randomSpot = Random.Range(0, moveSpots.Count);
+				}
+				waitTime   = startWaitTime;	
+			}
+			else
+				waitTime -= Time.deltaTime; print("else: " + waitTime);
 		}
 	}
 }

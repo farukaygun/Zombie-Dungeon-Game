@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 	private void Start() 
 	{
 		isSpawning 	   = true;
-		spawnCountDown = 2f;
+		spawnCountDown = 5f;
 
 		StartCoroutine(SpawnRoutine());
 	}

@@ -1,2 +1,2 @@
 - The player and the enemies go off the map.
-- Camera goes out of map borders.
+- Enemy patrolling is not optimized yet.
