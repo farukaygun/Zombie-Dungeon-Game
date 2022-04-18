@@ -16,8 +16,8 @@ public class PlayerController : MonoBehaviour
 	[Header("Attack")]
 	[SerializeField] private InputAction attackInput;
 	[SerializeField] private Transform   attackPoint;
-	[SerializeField] private float       attackRange = 0.5f;
-	[SerializeField] private int         damage      = 20;
+	[SerializeField] private float       attackRange;
+	[SerializeField] private int         damage;
 	[SerializeField] private LayerMask   enemyLayers;
 
 
@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
 		anim 		= GetComponent<Animator>();
 		enemyLayers = LayerMask.GetMask("Enemy");
 		speed = 3.5f;
+		attackRange = 0.5f;
+		damage = 50;
 
 		// Input Assign
 		attackInput.performed   += _   => Attack();  // delegate method to InputAction

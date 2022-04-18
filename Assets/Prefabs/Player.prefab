@@ -43,8 +43,8 @@ GameObject:
   - component: {fileID: 5171866177351922994}
   - component: {fileID: 5171866177351922995}
   - component: {fileID: 5171866177351922999}
-  - component: {fileID: 5171866177351922992}
   - component: {fileID: 5171866177351922998}
+  - component: {fileID: 5171866177351922992}
   - component: {fileID: 5171866177351922997}
   m_Layer: 0
   m_Name: Player
@@ -159,6 +159,26 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!95 &5171866177351922998
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171866177351923004}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d77bba146d3d23942bf447d578cc56d7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &5171866177351922992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,26 +304,6 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 0
---- !u!95 &5171866177351922998
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5171866177351923004}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d77bba146d3d23942bf447d578cc56d7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &5171866177351922997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +320,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   animationTriggerName: 
+  col: {fileID: 0}
 --- !u!1 &5171866177370912591
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,11 +11,12 @@ public class GameManager : MonoBehaviour
 
 	private void Start() 
 	{
-		isSpawning = true;
+		isSpawning 	   = true;
 		spawnCountDown = 2f;
 
 		StartCoroutine(SpawnRoutine());
 	}
+
 	private IEnumerator SpawnRoutine()
 	{
 		while (isSpawning == true)
@@ -26,7 +27,7 @@ public class GameManager : MonoBehaviour
 			if (enemy != null)
 			{
 				int selectedSpawner = Random.Range(0, 2);
-				Transform spawner = selectedSpawner == 0 ? leftSpawner : rightSpawner;
+				Transform spawner   = selectedSpawner == 0 ? leftSpawner : rightSpawner;
 				enemy.transform.position = spawner.position;
 				enemy.transform.rotation = spawner.rotation;
 				enemy.SetActive(true);

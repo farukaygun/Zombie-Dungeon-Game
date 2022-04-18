@@ -4,4 +4,8 @@ using UnityEngine;
 
 public class PlayerHealth : HealthSystem
 {
+	public override void TakeDamage(int damage)
+	{
+		currentHealth = maxHealth;
+	}
 }

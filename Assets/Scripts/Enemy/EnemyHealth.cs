@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyHealth : HealthSystem
 {
+	private float coolDown = 3f;
+
 	public override void Die()
 	{
 		GetComponent<EnemyController>().currentState = State.Die;
@@ -11,10 +13,11 @@ public class EnemyHealth : HealthSystem
 		StartCoroutine(ClearDeadBody());
 	}
 
-	// TODO: Create object pool and use zombies from pool
 	private IEnumerator ClearDeadBody() {
-		yield return new WaitForSeconds(3f);
+		yield return new WaitForSeconds(coolDown);
+		
 		col.enabled = true;
+		currentHealth = maxHealth;
 		GetComponent<EnemyController>().currentState = State.Idle;
 		gameObject.SetActive(false);
 	}
