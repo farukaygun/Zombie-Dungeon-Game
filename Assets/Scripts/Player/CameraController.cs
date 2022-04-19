@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
-* ! No need because of started use Cinemachine 
+* ! Deprecated: started to use Cinemachine 
 */
 
 public class CameraController : MonoBehaviour

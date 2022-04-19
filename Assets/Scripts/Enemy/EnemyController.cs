@@ -44,12 +44,9 @@ public class EnemyController : MonoBehaviour
 
 		// filling moveSpots
 		foreach (Transform item in patrolPoints.transform)
-		{
-			print(item.name);
 			moveSpots.Add(item);
-		}
 
-		randomSpot 		  = Random.Range(0, moveSpots.Count);
+		randomSpot		  = Random.Range(0, moveSpots.Count);
 		patrolSpeed   	  = 1f;
 		startWaitTime 	  = 3f;
 	}
@@ -124,21 +121,27 @@ public class EnemyController : MonoBehaviour
 	private void Patrol()
 	{
 		anim.SetBool("isRunning", true);
-		transform.position = Vector2.MoveTowards(transform.position, moveSpots[randomSpot].position, patrolSpeed * Time.fixedDeltaTime * 0.05f);
+		transform.position = Vector2.MoveTowards(transform.position, moveSpots[randomSpot].position, patrolSpeed * Time.fixedDeltaTime * 0.1f);
 
 		if (Vector2.Distance(transform.position, moveSpots[randomSpot].position) < 0.2f)
 		{
 			if (waitTime <= 0)
 			{
-				print("distance: " + Vector2.Distance(transform.position, moveSpots[randomSpot].position));
-				while (Vector2.Distance(transform.position, moveSpots[randomSpot].position) <= 3f)
-				{
-					randomSpot = Random.Range(0, moveSpots.Count);
-				}
-				waitTime   = startWaitTime;	
+				randomSpot = GetNextPatrolPoint(3f);
+				waitTime = startWaitTime;
 			}
 			else
-				waitTime -= Time.deltaTime; print("else: " + waitTime);
+				waitTime -= Time.deltaTime;
 		}
+	}
+
+	private int GetNextPatrolPoint(float distanceToNextPoint)
+	{
+		int spot = randomSpot;
+		while (Vector2.Distance(transform.position, moveSpots[spot].position) <= distanceToNextPoint)
+		{
+			spot = Random.Range(0, moveSpots.Count);
+		}
+		return spot;
 	}
 }
