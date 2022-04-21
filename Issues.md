@@ -1,2 +1,4 @@
 - The player and the enemies go off the map.
 - Enemy patrolling is not optimized yet.
+- Player can move and attack after died.
+- Enemy health bar shows in dark.

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerHealth : HealthSystem
 {
-	public override void TakeDamage(int damage)
+	public override void Start()
 	{
-		currentHealth = maxHealth;
+		healthBar = GameObject.Find("Player Health Bar").GetComponent<HealthBar>();
+		base.Start();
 	}
 }

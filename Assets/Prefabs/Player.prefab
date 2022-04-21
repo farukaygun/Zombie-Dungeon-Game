@@ -431,3 +431,5 @@ MonoBehaviour:
   currentHealth: 0
   animationTriggerName: 
   col: {fileID: 0}
+  healthBar: {fileID: 0}
+  healthBarTransform: {fileID: 0}

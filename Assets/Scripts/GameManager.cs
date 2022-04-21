@@ -28,8 +28,10 @@ public class GameManager : MonoBehaviour
 			{
 				int selectedSpawner = Random.Range(0, 2);
 				Transform spawner   = selectedSpawner == 0 ? leftSpawner : rightSpawner;
+
 				enemy.transform.position = spawner.position;
 				enemy.transform.rotation = spawner.rotation;
+
 				enemy.SetActive(true);
 			}
 		}

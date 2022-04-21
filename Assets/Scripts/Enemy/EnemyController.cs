@@ -42,13 +42,12 @@ public class EnemyController : MonoBehaviour
 		speed		  	  = 2f;
 		patrolPoints      = GameObject.FindGameObjectWithTag("Patrol Points");
 
-		// filling moveSpots
 		foreach (Transform item in patrolPoints.transform)
 			moveSpots.Add(item);
 
 		randomSpot		  = Random.Range(0, moveSpots.Count);
 		patrolSpeed   	  = 1f;
-		startWaitTime 	  = 3f;
+		startWaitTime 	  = 7f;
 	}
 
 	private void Update() 
@@ -67,7 +66,7 @@ public class EnemyController : MonoBehaviour
 				Patrol();
 				break;
 			case State.Chase:
-				FollowTarget();
+				ChaseTarget();
 				break;
 			case State.Attack:
 				Attack();
@@ -90,16 +89,11 @@ public class EnemyController : MonoBehaviour
 		}
 	}
 
-	private void FollowTarget() 
+	private void ChaseTarget() 
 	{
 		anim.SetBool("isRunning", true);
 		transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime * 0.1f);
-
-		// look at target
-		if (transform.position.x > target.position.x && transform.localScale.x > 0)
-			transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-		else if (transform.position.x < target.position.x && transform.localScale.x < 0)
-			transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+		RotateToTarget(target.position);
 	}
 
 	private void Attack()
@@ -122,6 +116,7 @@ public class EnemyController : MonoBehaviour
 	{
 		anim.SetBool("isRunning", true);
 		transform.position = Vector2.MoveTowards(transform.position, moveSpots[randomSpot].position, patrolSpeed * Time.fixedDeltaTime * 0.1f);
+		RotateToTarget(moveSpots[randomSpot].position);
 
 		if (Vector2.Distance(transform.position, moveSpots[randomSpot].position) < 0.2f)
 		{
@@ -143,5 +138,14 @@ public class EnemyController : MonoBehaviour
 			spot = Random.Range(0, moveSpots.Count);
 		}
 		return spot;
+	}
+
+	private void RotateToTarget(Vector3 targetPosition)
+	{
+		if (transform.position.x > targetPosition.x && transform.localScale.x > 0)
+			transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+
+		else if (transform.position.x < targetPosition.x && transform.localScale.x < 0)
+			transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
 	}
 }
