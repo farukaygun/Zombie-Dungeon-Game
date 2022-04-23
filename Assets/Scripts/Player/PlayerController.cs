@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
 	[Header("Attack")]
 	[SerializeField] private int   damage;
 	[SerializeField] private float attackRange;
+	[SerializeField] private float attackRate;
+	[SerializeField] private float attackCooldown;
 
 	[SerializeField] private InputAction attackInput;
 	[SerializeField] private Transform   attackPoint;
@@ -100,12 +102,17 @@ public class PlayerController : MonoBehaviour
 		if (GetComponent<PlayerHealth>().isDead)
 			return;
 
-		anim.SetTrigger("attack1");
+		if (Time.time > attackCooldown)
+		{
+			anim.SetTrigger("attack1");
 
-		Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-		
-		foreach (var enemy in hitEnemies)
-			enemy.GetComponent<EnemyHealth>().TakeDamage(damage);
+			Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+			foreach (var enemy in hitEnemies)
+				enemy.GetComponent<EnemyHealth>().TakeDamage(damage);
+
+			attackCooldown = Time.time + attackRate;
+		}
 	}
 
 	// display attack range with circle

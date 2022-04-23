@@ -13576,6 +13576,10 @@ PrefabInstance:
       propertyPath: damage
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 135811766317197734, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
+      propertyPath: attackCooldown
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 135811766317197735, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
       propertyPath: m_RootOrder
       value: 3
