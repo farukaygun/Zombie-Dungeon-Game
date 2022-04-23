@@ -275,7 +275,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   attackRange: 0.5
-  damage: 20
+  damage: 100
   attackCooldown: 2
   lastAttackTime: 0
   currentState: 0
@@ -304,6 +304,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1300523469}
     m_Modifications:
+    - target: {fileID: 4136950643279519522, guid: a92d023669b987541ad56c818780c284, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136950643279519522, guid: a92d023669b987541ad56c818780c284, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136950643279519522, guid: a92d023669b987541ad56c818780c284, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136950643279519522, guid: a92d023669b987541ad56c818780c284, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136950643279519522, guid: a92d023669b987541ad56c818780c284, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 8e901d00a26beb045a6fe1159bb6458f, type: 2}
     - target: {fileID: 4136950643579529174, guid: a92d023669b987541ad56c818780c284, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -404,6 +424,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4136950643876040782, guid: a92d023669b987541ad56c818780c284, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136950643876040782, guid: a92d023669b987541ad56c818780c284, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136950643876040782, guid: a92d023669b987541ad56c818780c284, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136950643876040782, guid: a92d023669b987541ad56c818780c284, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136950643876040782, guid: a92d023669b987541ad56c818780c284, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 1b7dc861c36c12e43b85b5479c1cdb6d, type: 2}
     - target: {fileID: 4136950643876040783, guid: a92d023669b987541ad56c818780c284, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

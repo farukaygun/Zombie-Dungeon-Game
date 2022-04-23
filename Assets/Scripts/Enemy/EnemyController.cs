@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum State
+public enum EnemyState
 {
 	Idle,
 	Patrol,
@@ -29,10 +29,10 @@ public class EnemyController : MonoBehaviour
 	private float 	   waitTime;
 	private float 	   startWaitTime;
 
-	private float 	  speed;
-	private Transform target;
-	private Animator  anim;
-	public  State     currentState;
+	private float 	   speed;
+	private Transform  target;
+	private Animator   anim;
+	public  EnemyState currentState;
 
 	private void Start() 
 	{
@@ -60,15 +60,15 @@ public class EnemyController : MonoBehaviour
 	{
 		switch (currentState)
 		{
-			case State.Idle:
+			case EnemyState.Idle:
 				break;
-			case State.Patrol:
+			case EnemyState.Patrol:
 				Patrol();
 				break;
-			case State.Chase:
+			case EnemyState.Chase:
 				ChaseTarget();
 				break;
-			case State.Attack:
+			case EnemyState.Attack:
 				Attack();
 				break;
 		}
@@ -78,14 +78,14 @@ public class EnemyController : MonoBehaviour
 	{
 		float distanceToTarget = Vector3.Distance(target.position, transform.position);
 
-		if (currentState != State.Die)
+		if (currentState != EnemyState.Die)
 		{
 			if (distanceToTarget > 5f)
-				currentState = State.Patrol;
+				currentState = EnemyState.Patrol;
 			else if (distanceToTarget <= 5f && distanceToTarget > attackRange)
-				currentState = State.Chase;
+				currentState = EnemyState.Chase;
 			else 
-				currentState = State.Attack;
+				currentState = EnemyState.Attack;
 		}
 	}
 
@@ -100,16 +100,22 @@ public class EnemyController : MonoBehaviour
 	{
 		if (Time.time > lastAttackTime + attackCooldown)
 		{
-			anim.SetBool("isRunning", false);
-			anim.SetTrigger("attack");
-
-			Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayers);
-
-			foreach (var player in hitPlayer)
-				player.GetComponent<PlayerHealth>().TakeDamage(damage);
-
+			StartCoroutine(AttackRoutine());
 			lastAttackTime = Time.time;
 		}
+	}
+
+	private IEnumerator AttackRoutine()
+	{
+		anim.SetBool("isRunning", false);
+		anim.SetTrigger("attack");
+
+		yield return new WaitForSeconds(0.5f);
+
+		Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayers);
+
+		foreach (var player in hitPlayer)
+			player.GetComponent<PlayerHealth>().TakeDamage(damage);
 	}
 
 	private void Patrol()
@@ -126,7 +132,11 @@ public class EnemyController : MonoBehaviour
 				waitTime = startWaitTime;
 			}
 			else
+			{
 				waitTime -= Time.deltaTime;
+				anim.SetBool("isRunning", false);
+			}
+				
 		}
 	}
 
@@ -147,5 +157,14 @@ public class EnemyController : MonoBehaviour
 
 		else if (transform.position.x < targetPosition.x && transform.localScale.x < 0)
 			transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+	}
+
+	// display attack range with circle
+	private void OnDrawGizmos()
+	{
+		if (attackPoint == null)
+			return;
+
+		Gizmos.DrawWireSphere(attackPoint.position, attackRange);
 	}
 }

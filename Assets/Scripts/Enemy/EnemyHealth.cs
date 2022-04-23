@@ -2,19 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyHealth : HealthSystem
+public class EnemyHealth : MonoBehaviour
 {
-	private float  coolDown = 3f;
-	private float  offsetY  = 0.5f;
-	private Canvas canvas;
+	[Header("Health System")]
+	private int				  maxHealth = 100;
+	private int				  currentHealth;
+	private string			  animationTriggerName = "die";
 
-	public override void Start()
+	private Animator		  anim;
+	private CapsuleCollider2D col;
+
+	[Header("Health Bar")]
+	private float     offsetY = 0.5f;
+	private Canvas	  canvas;
+
+	private HealthBar healthBar;
+
+
+	public void Start()
 	{
 		healthBar		   = transform.Find("Canvas/Enemy Health Bar").GetComponent<HealthBar>(); 
 		canvas			   = transform.Find("Canvas").GetComponent<Canvas>();
 		canvas.worldCamera = Camera.main;
+		anim			   = GetComponent<Animator>();
+		col				   = GetComponent<CapsuleCollider2D>();
 
-		base.Start();
+		SetMaxHealth();
 	}
 
 	private void FixedUpdate()
@@ -22,24 +35,40 @@ public class EnemyHealth : HealthSystem
 		HealthBarFollowTransform();
 	}
 
-	public override void Die()
+	public void TakeDamage(int damage)
 	{
-		GetComponent<EnemyController>().currentState = State.Die;
-		base.Die();
+		currentHealth -= damage;
+		healthBar.SetHealth(currentHealth);
+
+		if (currentHealth <= 0)
+			Die();
+	}
+
+	private void Die()
+	{
+		GetComponent<EnemyController>().currentState = EnemyState.Die;
+		col.enabled = false;
+		anim.SetTrigger(animationTriggerName);
 		StartCoroutine(ClearDeadBody());
 	}
 
 	private IEnumerator ClearDeadBody() {
-		yield return new WaitForSeconds(coolDown);
-		
+		yield return new WaitForSeconds(3f);
+
+		GetComponent<EnemyController>().currentState = EnemyState.Idle;
 		col.enabled = true;
 		SetMaxHealth();
-		GetComponent<EnemyController>().currentState = State.Idle;
 		gameObject.SetActive(false);
 	}
 
 	private void HealthBarFollowTransform()
 	{
 		healthBar.transform.position = new Vector3(transform.position.x, transform.position.y + offsetY, transform.position.z);
+	}
+
+	private void SetMaxHealth()
+	{
+		currentHealth = maxHealth;
+		healthBar.SetMaxHealth(maxHealth);
 	}
 }

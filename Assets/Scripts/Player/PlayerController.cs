@@ -14,24 +14,22 @@ public class PlayerController : MonoBehaviour
 
 
 	[Header("Attack")]
+	[SerializeField] private int   damage;
+	[SerializeField] private float attackRange;
+
 	[SerializeField] private InputAction attackInput;
 	[SerializeField] private Transform   attackPoint;
-	[SerializeField] private float       attackRange;
-	[SerializeField] private int         damage;
 	[SerializeField] private LayerMask   enemyLayers;
 
 
 	private Rigidbody2D rb;
-	private Animator anim;
+	private Animator    anim;
 
 	private void Start()
 	{
 		rb   		= GetComponent<Rigidbody2D>();
 		anim 		= GetComponent<Animator>();
 		enemyLayers = LayerMask.GetMask("Enemy");
-		speed = 5f;
-		attackRange = 0.5f;
-		damage = 50;
 
 		// Input Assign
 		attackInput.performed   += _   => Attack();  // delegate method to InputAction
@@ -43,7 +41,7 @@ public class PlayerController : MonoBehaviour
 		movementInput.canceled  += _   =>
 		{
 			horizontal = 0;
-			vertical = 0;
+			vertical   = 0;
 		};
 	}
 
@@ -61,6 +59,10 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		// if player died then don't move.
+		if (GetComponent<PlayerHealth>().isDead)
+			return;
+
 		Move();
 	}
 
@@ -95,6 +97,9 @@ public class PlayerController : MonoBehaviour
 
 	private void Attack()
 	{
+		if (GetComponent<PlayerHealth>().isDead)
+			return;
+
 		anim.SetTrigger("attack1");
 
 		Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);

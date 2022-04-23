@@ -7634,7 +7634,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000a112a2e63957a24891c7eee1cf9fe89a
+  m_ApplyToSortingLayers: 00000000a112a2e63957a24891c7eee1cf9fe89a27b1748a
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -8031,7 +8031,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 1.7761194, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -8337,7 +8337,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000a112a2e63957a24891c7eee1cf9fe89a
+  m_ApplyToSortingLayers: 00000000a112a2e63957a24891c7eee1cf9fe89a27b1748a
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -12801,7 +12801,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000a112a2e63957a24891c7eee1cf9fe89a
+  m_ApplyToSortingLayers: 00000000a112a2e63957a24891c7eee1cf9fe89a27b1748a
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -13175,7 +13175,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000a112a2e63957a24891c7eee1cf9fe89a
+  m_ApplyToSortingLayers: 00000000a112a2e63957a24891c7eee1cf9fe89a27b1748a
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -13533,12 +13533,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 135811765956702269, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
+      propertyPath: m_FalloffIntensity
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 135811765956702269, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
       propertyPath: m_PointLightInnerRadius
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 135811765956702269, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
       propertyPath: m_PointLightOuterRadius
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 135811765956702269, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 135811765956702269, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.data[5]
+      value: -1972063961
       objectReference: {fileID: 0}
     - target: {fileID: 135811766317197731, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
       propertyPath: col
@@ -13551,6 +13563,18 @@ PrefabInstance:
     - target: {fileID: 135811766317197731, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
       propertyPath: healthBar
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 135811766317197733, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 135811766317197734, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 135811766317197734, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
+      propertyPath: damage
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 135811766317197735, guid: d542c535cd0b35b4a8cf7f19197e7f60, type: 3}
       propertyPath: m_RootOrder
