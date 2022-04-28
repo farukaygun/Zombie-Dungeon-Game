@@ -4,25 +4,19 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-	[Header("Health System")]
-	private int	   maxHealth = 100;
-	private int    currentHealth;
-	private string animationTriggerName;
+	[SerializeField] private int maxHealth;
+	[SerializeField] private int currentHealth;
+	[SerializeField] private string animationTriggerName;
 
-	private Animator		  anim;
-	private CapsuleCollider2D col;
+	[SerializeField] private Animator anim;
+	[SerializeField] private CapsuleCollider2D col;
+	[SerializeField] private HealthBar healthBar;
 
-	private HealthBar healthBar;
-	public  bool	  isDead = false;
-
+	public bool isDead = false;
 
 	public void Start()
 	{
-		animationTriggerName = "die";
-		anim				 = GetComponent<Animator>();
-		col					 = GetComponent<CapsuleCollider2D>();
-		healthBar			 = GameObject.Find("Player Health Bar").GetComponent<HealthBar>();
-
+		//healthBar = GameObject.Find("Canvas/Player Health Bar").GetComponent<HealthBar>();
 		SetMaxHealth();
 	}
 

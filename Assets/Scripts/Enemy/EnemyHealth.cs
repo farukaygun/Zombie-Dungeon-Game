@@ -5,27 +5,23 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
 	[Header("Health System")]
-	private int				  maxHealth = 100;
-	private int				  currentHealth;
-	private string			  animationTriggerName = "die";
+	[SerializeField] private int maxHealth;
+	[SerializeField] private int currentHealth;
+	[SerializeField] private string animationTriggerName;
 
-	private Animator		  anim;
-	private CapsuleCollider2D col;
+	[SerializeField] private Animator anim;
+	[SerializeField] private CapsuleCollider2D col;
 
 	[Header("Health Bar")]
-	private float     offsetY = 0.5f;
-	private Canvas	  canvas;
+	[SerializeField] private float offsetY;
+	[SerializeField] private Canvas canvas;
 
-	private HealthBar healthBar;
-
+	[SerializeField] private HealthBar healthBar;
+	[SerializeField] private EnemyController enemyController;
 
 	public void Start()
 	{
-		healthBar		   = transform.Find("Canvas/Enemy Health Bar").GetComponent<HealthBar>(); 
-		canvas			   = transform.Find("Canvas").GetComponent<Canvas>();
 		canvas.worldCamera = Camera.main;
-		anim			   = GetComponent<Animator>();
-		col				   = GetComponent<CapsuleCollider2D>();
 
 		SetMaxHealth();
 	}
@@ -41,12 +37,11 @@ public class EnemyHealth : MonoBehaviour
 		healthBar.SetHealth(currentHealth);
 
 		if (currentHealth <= 0)
-			Die();
+			enemyController.currentState = EnemyState.Die;
 	}
 
-	private void Die()
+	public void Die()
 	{
-		GetComponent<EnemyController>().currentState = EnemyState.Die;
 		col.enabled = false;
 		anim.SetTrigger(animationTriggerName);
 		StartCoroutine(ClearDeadBody());
@@ -55,7 +50,8 @@ public class EnemyHealth : MonoBehaviour
 	private IEnumerator ClearDeadBody() {
 		yield return new WaitForSeconds(3f);
 
-		GetComponent<EnemyController>().currentState = EnemyState.Idle;
+		enemyController.currentState = EnemyState.Idle;
+
 		col.enabled = true;
 		SetMaxHealth();
 		gameObject.SetActive(false);

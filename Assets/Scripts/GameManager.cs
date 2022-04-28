@@ -6,8 +6,11 @@ public class GameManager : MonoBehaviour
 {
 	public Transform rightSpawner;
 	public Transform leftSpawner;
-	private float 	 spawnCountDown;
-	private bool	 isSpawning;
+	private float spawnCountDown;
+	private bool isSpawning;
+
+	[SerializeField] private EnemyPool enemyPool;
+	[SerializeField] private EnemyController enemyController;
 
 	private void Start() 
 	{
@@ -23,7 +26,7 @@ public class GameManager : MonoBehaviour
 		{
 			yield return new WaitForSeconds(spawnCountDown);
 
-			GameObject enemy = EnemyPool.instance.GetPooledObject();
+			GameObject enemy = enemyPool.GetPooledObject();
 			if (enemy != null)
 			{
 				int selectedSpawner = Random.Range(0, 2);

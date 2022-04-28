@@ -146,13 +146,14 @@ GameObject:
   - component: {fileID: 5665056282653280993}
   - component: {fileID: 8339675946516313567}
   - component: {fileID: 8339675946516313564}
+  - component: {fileID: 7016433096343558389}
   m_Layer: 9
   m_Name: Zombie_0
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8339675946516313565
 Transform:
   m_ObjectHideFlags: 0
@@ -270,15 +271,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55168f0b0353a844bb01f7f9e207c5dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPoint: {fileID: 8339675945496664165}
-  playerLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  attackRange: 0.5
-  damage: 100
-  attackCooldown: 2
-  lastAttackTime: 0
+  patrolSpeed: 0.75
+  waitTime: 0
+  startWaitTime: 7
+  speed: 1.5
   currentState: 0
+  anim: {fileID: 8339675946516313571}
+  enemyAttack: {fileID: 7016433096343558389}
+  enemyHealth: {fileID: 8339675946516313564}
 --- !u!114 &8339675946516313564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,12 +291,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16adaaaad087a844d804daace93ce677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
   maxHealth: 100
   currentHealth: 0
-  animationTriggerName: 
-  col: {fileID: 0}
-  healthBar: {fileID: 0}
+  animationTriggerName: die
+  anim: {fileID: 8339675946516313571}
+  col: {fileID: 5665056282653280993}
+  offsetY: 0.5
+  canvas: {fileID: 1300523472}
+  healthBar: {fileID: 4136950644002054087}
+  enemyController: {fileID: 8339675946516313567}
+--- !u!114 &7016433096343558389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8339675946516313568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06cec50ca6b8884c97a5e8ac74633c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 20
+  attackCooldown: 2
+  lastAttackTime: 0
+  attackRange: 0.5
+  attackPoint: {fileID: 8339675945496664165}
+  playerLayers:
+    serializedVersion: 2
+    m_Bits: 1024
+  anim: {fileID: 8339675946516313571}
 --- !u!1001 &787576851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -459,3 +483,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4136950643579529174, guid: a92d023669b987541ad56c818780c284, type: 3}
   m_PrefabInstance: {fileID: 787576851}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4136950644002054087 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4136950643579529172, guid: a92d023669b987541ad56c818780c284, type: 3}
+  m_PrefabInstance: {fileID: 787576851}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c90d8a088112e3345aed93ace382cc3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

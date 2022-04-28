@@ -5,36 +5,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-	[Header("Movement")]
 	[SerializeField] private InputAction movementInput;
-	[SerializeField] private float       speed;
+	[SerializeField] private float speed;
 
 	private float horizontal;
 	private float vertical;
 
+	[SerializeField] private Rigidbody2D rb;
+	[SerializeField] private Animator anim;
 
-	[Header("Attack")]
-	[SerializeField] private int   damage;
-	[SerializeField] private float attackRange;
-	[SerializeField] private float attackRate;
-	[SerializeField] private float attackCooldown;
+	[SerializeField] private PlayerHealth playerHealth;
 
-	[SerializeField] private InputAction attackInput;
-	[SerializeField] private Transform   attackPoint;
-	[SerializeField] private LayerMask   enemyLayers;
-
-
-	private Rigidbody2D rb;
-	private Animator    anim;
 
 	private void Start()
 	{
-		rb   		= GetComponent<Rigidbody2D>();
-		anim 		= GetComponent<Animator>();
-		enemyLayers = LayerMask.GetMask("Enemy");
-
 		// Input Assign
-		attackInput.performed   += _   => Attack();  // delegate method to InputAction
 		movementInput.performed += cxt =>
 		{
 			horizontal = cxt.ReadValue<Vector2>().x;
@@ -50,19 +35,17 @@ public class PlayerController : MonoBehaviour
 	private void OnEnable()
 	{
 		movementInput.Enable();
-		attackInput.Enable();
 	}
 
 	private void OnDisable()
 	{
 		movementInput.Disable();
-		attackInput.Disable();
 	}
 
 	private void FixedUpdate()
 	{
 		// if player died then don't move.
-		if (GetComponent<PlayerHealth>().isDead)
+		if (playerHealth.isDead)
 			return;
 
 		Move();
@@ -84,7 +67,6 @@ public class PlayerController : MonoBehaviour
 			SetRunAnimation(true);
 		else
 			SetRunAnimation(false);
-
 	}
 
 	private void SetRunAnimation(bool isRunning)
@@ -95,31 +77,5 @@ public class PlayerController : MonoBehaviour
 			transform.localScale = new Vector3(0.33f, transform.localScale.y);
 		else if (horizontal < 0)
 			transform.localScale = new Vector3(-0.33f, transform.localScale.y);
-	}
-
-	private void Attack()
-	{
-		if (GetComponent<PlayerHealth>().isDead)
-			return;
-
-		if (Time.time > attackCooldown)
-		{
-			anim.SetTrigger("attack1");
-
-			Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-
-			foreach (var enemy in hitEnemies)
-				enemy.GetComponent<EnemyHealth>().TakeDamage(damage);
-
-			attackCooldown = Time.time + attackRate;
-		}
-	}
-
-	// display attack range with circle
-	private void OnDrawGizmos() {
-		if (attackPoint == null)
-			return;
-
-		Gizmos.DrawWireSphere(attackPoint.position, attackRange);
 	}
 }

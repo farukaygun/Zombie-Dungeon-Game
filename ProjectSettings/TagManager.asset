@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Patrol Points
+  - Score
   layers:
   - Default
   - TransparentFX

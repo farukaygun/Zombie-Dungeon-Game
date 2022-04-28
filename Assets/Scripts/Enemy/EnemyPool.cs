@@ -4,20 +4,12 @@ using UnityEngine;
 
 public class EnemyPool : MonoBehaviour
 {
-	public static EnemyPool instance;
-	
-	public  List<GameObject> pooledObjects;
-	public  GameObject 		 objectToPool;
-	private int 			 amountToPool;
-
-	private void Awake()
-	{
-		instance = this;
-	}
+	[SerializeField] private List<GameObject> pooledObjects;
+	[SerializeField] private GameObject objectToPool;
+	[SerializeField] private int amountToPool;
 
 	private void Start() 
 	{
-		amountToPool = 50;
 		CreateObjectToPool();
 	}
 
@@ -29,7 +21,7 @@ public class EnemyPool : MonoBehaviour
 		for (int i = 0; i < amountToPool; i++)
 		{
 			tmp = Instantiate(objectToPool);
-			tmp.SetActive(false);
+			tmp.name = "zombie " + i.ToString();
 			pooledObjects.Add(tmp);
 		}
 	}
@@ -40,16 +32,18 @@ public class EnemyPool : MonoBehaviour
 		{
 			if (!pooledObjects[i].activeInHierarchy)
 			{
+				print("activated: " + pooledObjects[i].name);
 				return pooledObjects[i];
 			}
 		}
-		return AddObjectToPool(1);
+		return AddObjectToPool();
 	}
 
-	private GameObject AddObjectToPool(int amount)
+	private GameObject AddObjectToPool()
 	{
 		GameObject tmp;
 		tmp = Instantiate(objectToPool);
+		tmp.name = "zombie " + pooledObjects.Count.ToString();
 		pooledObjects.Add(tmp);
 
 		return tmp;

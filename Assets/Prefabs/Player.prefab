@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 135811765055513642}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 135811766317197729}
   - component: {fileID: 135811766317197728}
   - component: {fileID: 135811766317197734}
+  - component: {fileID: 6150283996467162368}
   - component: {fileID: 135811766317197731}
   m_Layer: 10
   m_Name: Player
@@ -390,18 +391,45 @@ MonoBehaviour:
       m_Action: Movement Input
       m_Flags: 8
     m_Flags: 0
-  speed: 8
+  speed: 5
+  rb: {fileID: 135811766317197733}
+  anim: {fileID: 135811766317197728}
+  playerHealth: {fileID: 135811766317197731}
+--- !u!114 &6150283996467162368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135811766317197738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90feb9493fa43234baf5a4a635448fd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 50
+  attackRange: 0.5
+  lastAttackTime: 0
+  attackCooldown: 1
   attackInput:
     m_Name: Attack Input
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 9ae98951-5de2-418e-a13d-7e1d3bb3aa13
+    m_Id: 2f43e1fe-cfca-452a-beb7-bfecbeb61f04
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 
-      m_Id: 3b44eedf-6c82-45a9-85ff-2c62be911b8f
+      m_Id: 58c218ad-99f2-4602-83d2-b7f186fc337a
       m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Attack Input
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 5cb51e1a-4b21-4c67-8eb4-cc7a1e5476b2
+      m_Path: <Keyboard>/space
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -409,11 +437,11 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   attackPoint: {fileID: 135811765055513642}
-  attackRange: 0.5
-  damage: 20
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
+  anim: {fileID: 135811766317197728}
+  playerHealth: {fileID: 135811766317197731}
 --- !u!114 &135811766317197731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,10 +454,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af32998816922a44975529a08298e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
   maxHealth: 100
   currentHealth: 0
-  animationTriggerName: 
-  col: {fileID: 0}
+  animationTriggerName: die
+  anim: {fileID: 135811766317197728}
+  col: {fileID: 135811766317197729}
   healthBar: {fileID: 0}
-  healthBarTransform: {fileID: 0}
+  isDead: 0

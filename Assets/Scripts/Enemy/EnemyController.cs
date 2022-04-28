@@ -8,46 +8,43 @@ public enum EnemyState
 	Patrol,
 	Chase,
 	Attack,
-	Die
+	Die,
+	Empty,
 }
 
 public class EnemyController : MonoBehaviour
 {
-	[Header("Attack")]
-	[SerializeField] private Transform attackPoint;
-	[SerializeField] private LayerMask playerLayers;
-	[SerializeField] private float 	   attackRange    = 0.5f;
-	[SerializeField] private int	   damage 	      = 20;
-	[SerializeField] private int	   attackCooldown = 2;
-	[SerializeField] private float	   lastAttackTime;
-
 	[Header("Patrol")]
-	private List<Transform> moveSpots = new List<Transform>();
+	private List<Transform> moveSpots;
 	private GameObject patrolPoints;
-	private int 	   randomSpot;
-	private float 	   patrolSpeed;
-	private float 	   waitTime;
-	private float 	   startWaitTime;
+	private int randomSpot;
 
-	private float 	   speed;
-	private Transform  target;
-	private Animator   anim;
+	[SerializeField] private float patrolSpeed;
+	[SerializeField] private float waitTime;
+	[SerializeField] private float startWaitTime;
+	[SerializeField] private float speed;
+
+	private Transform target;
 	public  EnemyState currentState;
+
+	[SerializeField] private Animator anim;
+	[SerializeField] private EnemyAttack enemyAttack;
+	[SerializeField] private EnemyHealth enemyHealth;
+
+	private Score score;
+
 
 	private void Start() 
 	{
-		anim   		  	  = GetComponent<Animator>();
-		target 		  	  = GameObject.FindGameObjectWithTag("Player").transform;
-		playerLayers  	  = LayerMask.GetMask("Player");
-		speed		  	  = 2f;
-		patrolPoints      = GameObject.FindGameObjectWithTag("Patrol Points");
+		target = GameObject.FindGameObjectWithTag("Player").transform;
+		patrolPoints = GameObject.FindGameObjectWithTag("Patrol Points");
+		moveSpots = new List<Transform>();
 
 		foreach (Transform item in patrolPoints.transform)
 			moveSpots.Add(item);
 
-		randomSpot		  = Random.Range(0, moveSpots.Count);
-		patrolSpeed   	  = 1f;
-		startWaitTime 	  = 7f;
+		randomSpot = Random.Range(0, moveSpots.Count);
+		score = GameObject.Find("Game Manager").GetComponent<Score>();
 	}
 
 	private void Update() 
@@ -69,7 +66,12 @@ public class EnemyController : MonoBehaviour
 				ChaseTarget();
 				break;
 			case EnemyState.Attack:
-				Attack();
+				enemyAttack.Attack();
+				break;
+			case EnemyState.Die:
+				enemyHealth.Die();
+				score.IncreaseScore(10);
+				currentState = EnemyState.Empty;
 				break;
 		}
 	}
@@ -78,11 +80,11 @@ public class EnemyController : MonoBehaviour
 	{
 		float distanceToTarget = Vector3.Distance(target.position, transform.position);
 
-		if (currentState != EnemyState.Die)
+		if (currentState != EnemyState.Die && currentState != EnemyState.Empty)
 		{
 			if (distanceToTarget > 5f)
 				currentState = EnemyState.Patrol;
-			else if (distanceToTarget <= 5f && distanceToTarget > attackRange)
+			else if (distanceToTarget <= 5f && distanceToTarget > enemyAttack.GetAttackRange())
 				currentState = EnemyState.Chase;
 			else 
 				currentState = EnemyState.Attack;
@@ -92,36 +94,14 @@ public class EnemyController : MonoBehaviour
 	private void ChaseTarget() 
 	{
 		anim.SetBool("isRunning", true);
-		transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime * 0.1f);
+		transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime);
 		RotateToTarget(target.position);
-	}
-
-	private void Attack()
-	{
-		if (Time.time > lastAttackTime + attackCooldown)
-		{
-			StartCoroutine(AttackRoutine());
-			lastAttackTime = Time.time;
-		}
-	}
-
-	private IEnumerator AttackRoutine()
-	{
-		anim.SetBool("isRunning", false);
-		anim.SetTrigger("attack");
-
-		yield return new WaitForSeconds(0.5f);
-
-		Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayers);
-
-		foreach (var player in hitPlayer)
-			player.GetComponent<PlayerHealth>().TakeDamage(damage);
 	}
 
 	private void Patrol()
 	{
 		anim.SetBool("isRunning", true);
-		transform.position = Vector2.MoveTowards(transform.position, moveSpots[randomSpot].position, patrolSpeed * Time.fixedDeltaTime * 0.1f);
+		transform.position = Vector2.MoveTowards(transform.position, moveSpots[randomSpot].position, patrolSpeed * Time.fixedDeltaTime);
 		RotateToTarget(moveSpots[randomSpot].position);
 
 		if (Vector2.Distance(transform.position, moveSpots[randomSpot].position) < 0.2f)
@@ -157,14 +137,5 @@ public class EnemyController : MonoBehaviour
 
 		else if (transform.position.x < targetPosition.x && transform.localScale.x < 0)
 			transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-	}
-
-	// display attack range with circle
-	private void OnDrawGizmos()
-	{
-		if (attackPoint == null)
-			return;
-
-		Gizmos.DrawWireSphere(attackPoint.position, attackRange);
 	}
 }
