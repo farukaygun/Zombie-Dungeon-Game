@@ -17,23 +17,34 @@ public class EnemyAttack : MonoBehaviour
 	{
 		if (Time.time > lastAttackTime)
 		{
-			StartCoroutine(AttackRoutine());
+			anim.SetBool("isRunning", false);
+			anim.SetTrigger("attack");
+			// StartCoroutine(AttackRoutine());
 			lastAttackTime = Time.time + attackCooldown;
 		}
 	}
 
-	private IEnumerator AttackRoutine()
+	// zombie attack animation event
+	private void AttackRoutine()
 	{
-		anim.SetBool("isRunning", false);
-		anim.SetTrigger("attack");
-
-		yield return new WaitForSeconds(0.5f);
-
 		Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayers);
 
 		foreach (var player in hitPlayer)
 			player.GetComponent<PlayerHealth>().TakeDamage(damage);
 	}
+
+	//private IEnumerator AttackRoutine()
+	//{
+	//	anim.SetBool("isRunning", false);
+	//	anim.SetTrigger("attack");
+
+	//	yield return new WaitForSeconds(0.5f);
+
+	//	Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayers);
+
+	//	foreach (var player in hitPlayer)
+	//		player.GetComponent<PlayerHealth>().TakeDamage(damage);
+	//}
 
 	public float GetAttackRange()
 	{
